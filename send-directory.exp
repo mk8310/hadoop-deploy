@@ -1,0 +1,22 @@
+#!/usr/bin/expect
+if { $argc != 6 } {
+ send_user "usage: expect send-file.exp file host\n"
+ exit
+}
+#define var
+set timeout -1
+
+set host [lindex $argv 0]
+set port [lindex $argv 1]
+set user [lindex $argv 2]
+set password [lindex $argv 3]
+set source_dir [lindex $argv 4]
+set dest_dir [lindex $argv 5]
+
+spawn scp -r -P $port $source_dir $user@$host:$dest_dir
+expect {
+        "yes/no" {send "yes\r";exp_continue}
+        "*password" {send "$password\r"}
+        eof
+}
+expect eof

@@ -1,0 +1,7 @@
+export JAVA_HOME=/usr/local/jdk1.8
+export HDFS_NAMENODE_USER=username
+export HDFS_DATANODE_USER=username
+export HDFS_JOURNALNODE_USER=username
+export HDFS_ZKFC_USER=username
+export YARN_RESOURCEMANAGER_USER=username
+export YARN_NODEMANAGER_USER=username

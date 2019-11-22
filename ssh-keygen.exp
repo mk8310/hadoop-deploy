@@ -1,0 +1,24 @@
+#!/usr/bin/expect
+#set enter "\n"
+set timeout -1
+
+if { $argc != 4 } {
+ send_user "usage: expect ssh-keygen.exp host user pwd\n"
+ exit
+}
+
+set host [lindex $argv 0]
+set port [lindex $argv 1]
+set user [lindex $argv 2]
+set pwd [lindex $argv 3]
+
+spawn ssh -p ${port} root@$host "python /opt/remote/scripts/ssh_keygen.py --username=$user"
+expect {
+        "*password:" {send "$pwd\r"; exp_continue}
+        "yes/no" {send "yes\r";exp_continue}
+        "*(/root/.ssh/id_rsa)" {send "\r";exp_continue}
+        "*(empty for no passphrase)" {send "\r";exp_continue}
+        "*again" {send "\r"}
+        eof
+}
+expect eof
